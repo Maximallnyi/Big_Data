@@ -1,0 +1,28 @@
+# Data load
+raw_data_topic: 'raw_data'
+raw_data_config : {'bootstrap.servers': 'localhost:9095,localhost:9096'}
+
+processing:
+       processing_topic: 'processing'
+       processing_producer_config : {'bootstrap.servers': 'localhost:9095'}
+       processing_consumer_config : {'bootstrap.servers': 'localhost:9096', 'group.id': 'processing'}
+#Model training
+data_process_topic : 'data_producer'
+model_topic : 'model_results'
+analysis_topic: metrics
+
+model_consumer_config : {'bootstrap.servers': 'localhost:9096',
+                                'group.id': 'model_training',
+                                'auto.offset.reset': 'earliest'}
+model_producer_config : {'bootstrap.servers': 'localhost:9095'}
+analysis_producer_config : {'bootstrap.servers': 'localhost:9095'}
+
+#Dashboard 
+visualization_topic : 'visualization'
+visualization_config : {"bootstrap.servers": "localhost:9095",
+                            "group.id": "streamlit_metrics_consumer",
+                            "auto.offset.reset": "earliest"}
+
+columns: ['Unnamed: 0', 'airline', 'flight', 'source_city', 'departure_time',
+       'stops', 'arrival_time', 'destination_city', 'class', 'duration',
+       'days_left', 'price']
